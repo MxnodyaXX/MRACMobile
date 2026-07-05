@@ -1,98 +1,124 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { LogOut, RefreshCw } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 
-export default function HomeScreen() {
+import { supabaseEnabled } from '@/src/lib/supabase';
+import { useAuthStore } from '@/src/store/useAuthStore';
+import { useStore } from '@/src/store/useStore';
+
+export default function DashboardScreen() {
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const logout = useAuthStore((s) => s.logout);
+  const loadUsers = useAuthStore((s) => s.loadUsers);
+
+  const loadAll = useStore((s) => s.loadAll);
+  const loaded = useStore((s) => s.loaded);
+
+  const [busy, setBusy] = useState(false);
+
+  // useShallow prevents an infinite render loop: without it this inline object
+  // selector returns a new reference every render, which useSyncExternalStore
+  // treats as a state change → re-render → white screen.
+  const counts = useStore(
+    useShallow((s) => ({
+      vehicles: s.vehicles.length,
+      owners: s.owners.length,
+      bookings: s.bookings.length,
+      customers: s.customers.length,
+      commissions: s.commissions.length,
+      drivers: s.drivers.length,
+    })),
+  );
+
+  const refresh = async () => {
+    setBusy(true);
+    try {
+      await Promise.all([loadAll(), loadUsers()]);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  useEffect(() => {
+    refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
+      <ScrollView contentContainerClassName="p-5 gap-4">
+        {/* Header */}
+        <View className="flex-row items-center justify-between">
+          <View>
+            <Text className="text-slate-500 text-sm">Welcome back,</Text>
+            <Text className="text-2xl font-black text-slate-900">
+              {currentUser?.name ?? 'User'}
+            </Text>
+            <Text className="text-navy-800 text-xs font-semibold mt-0.5 uppercase">
+              {currentUser?.role}
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={logout}
+            className="flex-row items-center gap-1.5 bg-white border border-slate-200 rounded-xl px-3 py-2"
+          >
+            <LogOut size={16} color="#0D1B45" />
+            <Text className="text-navy-800 font-semibold text-sm">Logout</Text>
+          </TouchableOpacity>
+        </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        {/* Live data widget */}
+        <View className="bg-navy-800 rounded-2xl p-5">
+          <View className="flex-row items-center justify-between mb-3">
+            <Text className="text-white font-bold text-base">Backend status</Text>
+            <View
+              className={`px-2.5 py-1 rounded-full ${
+                supabaseEnabled && loaded ? 'bg-emerald-400/20' : 'bg-amber-400/20'
+              }`}
+            >
+              <Text
+                className={`text-[11px] font-semibold ${
+                  supabaseEnabled && loaded ? 'text-emerald-300' : 'text-amber-300'
+                }`}
+              >
+                {supabaseEnabled ? (loaded ? 'Live' : 'Loading…') : 'Not configured'}
+              </Text>
+            </View>
+          </View>
+
+          <View className="flex-row flex-wrap">
+            {Object.entries(counts).map(([k, v]) => (
+              <View key={k} className="w-1/3 py-2">
+                <Text className="text-white text-2xl font-black">{v}</Text>
+                <Text className="text-white/50 text-xs capitalize">{k}</Text>
+              </View>
+            ))}
+          </View>
+
+          <TouchableOpacity
+            onPress={refresh}
+            disabled={busy}
+            className={`flex-row items-center justify-center gap-2 bg-white/10 rounded-xl py-2.5 mt-2 ${
+              busy ? 'opacity-60' : ''
+            }`}
+          >
+            {busy ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <RefreshCw size={15} color="#ffffff" />
+            )}
+            <Text className="text-white font-semibold text-sm">Reload from Supabase</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text className="text-slate-400 text-xs text-center leading-5">
+          Dashboard, Bookings, Vehicles and the rest are built out in the coming phases.
+          This card confirms your Supabase data is loading natively.
+        </Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

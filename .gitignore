@@ -32,6 +32,10 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
+
+# generated / machine-specific (contains local dev IP)
+qr.html
 
 # typescript
 *.tsbuildinfo
