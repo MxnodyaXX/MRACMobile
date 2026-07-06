@@ -388,7 +388,7 @@ export default function DashboardScreen() {
         <FleetColumn title="Under Repair" color="#ef4444" vehicles={scopedUnderRepair} onViewAll={() => router.push('/vehicles')} />
 
         {/* Stats bar */}
-        <View className="bg-white rounded-2xl border border-slate-100 mb-3 flex-row flex-wrap">
+        <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] mb-3 flex-row flex-wrap">
           {[
             ...(!isOwnerRole ? [{ icon: UserCircle, label: 'Owners', value: owners.length }] : []),
             { icon: Car, label: 'Vehicles', value: scoped.vehicles.length },

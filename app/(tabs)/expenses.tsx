@@ -70,7 +70,7 @@ export default function ExpensesScreen() {
     >
       <ScrollView contentContainerClassName="p-4 pb-28">
         {/* Total + donut */}
-        <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+        <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
           <View className="flex-row items-center justify-between mb-3">
             <Text className="text-sm font-bold text-slate-800">Expense by Category</Text>
             <Text className="text-sm font-bold text-slate-900">Rs {total.toLocaleString()}</Text>
@@ -101,7 +101,7 @@ export default function ExpensesScreen() {
           sorted.map((e) => {
             const v = vehicles.find((x) => x.id === e.vehicleId);
             return (
-              <View key={e.id} className="bg-white rounded-2xl border border-slate-100 p-3.5 mb-2.5 flex-row items-center gap-3">
+              <View key={e.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3.5 mb-2.5 flex-row items-center gap-3">
                 <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: CAT_COLORS[e.category] }} />
                 <View className="flex-1">
                   <Text className="text-sm font-semibold text-slate-800" numberOfLines={1}>{e.description}</Text>

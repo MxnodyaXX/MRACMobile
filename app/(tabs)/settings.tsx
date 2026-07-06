@@ -30,7 +30,7 @@ export default function SettingsScreen() {
       <ScrollView contentContainerClassName="p-4 pb-28">
         {/* Account */}
         <Text className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Account</Text>
-        <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-6">
+        <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-6">
           <Text className="text-sm font-bold text-slate-900">{currentUser?.name}</Text>
           <Text className="text-xs text-slate-400 mb-3 capitalize">{currentUser?.role}{currentUser?.username ? ` · @${currentUser.username}` : ''}</Text>
           <TouchableOpacity onPress={logout} className="flex-row items-center justify-center gap-2 rounded-xl py-2.5 bg-slate-100">
@@ -42,7 +42,7 @@ export default function SettingsScreen() {
         {/* Data management */}
         <Text className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Data Management</Text>
         {admin && (
-          <TouchableOpacity onPress={doRecompute} className="flex-row items-start gap-3 bg-white rounded-2xl border border-slate-100 p-4 mb-6">
+          <TouchableOpacity onPress={doRecompute} className="flex-row items-start gap-3 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-6">
             <View className="w-11 h-11 rounded-xl bg-emerald-600 items-center justify-center"><RefreshCw size={20} color="#fff" /></View>
             <View className="flex-1">
               <Text className="text-sm font-semibold text-slate-800">Recalculate Statistics</Text>
@@ -51,7 +51,7 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         )}
         {!admin && (
-          <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-6">
+          <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-6">
             <Text className="text-sm text-slate-500">Manual booking entry will be available in a later update.</Text>
           </View>
         )}

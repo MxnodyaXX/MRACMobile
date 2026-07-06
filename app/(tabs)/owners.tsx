@@ -46,7 +46,7 @@ export default function OwnersScreen() {
     const mine = canSee(o);
 
     return (
-      <TouchableOpacity key={o.id} activeOpacity={mine ? 0.85 : 1} onPress={() => mine && setViewing(o)} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+      <TouchableOpacity key={o.id} activeOpacity={mine ? 0.85 : 1} onPress={() => mine && setViewing(o)} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
         <View className="flex-row items-center gap-3 mb-3">
           <View style={{ backgroundColor: o.id === myOwnerId ? '#0D1B45' : '#64748b' }} className="w-12 h-12 rounded-xl items-center justify-center">
             <Text className="text-white font-bold text-sm">{initials(o.name)}</Text>

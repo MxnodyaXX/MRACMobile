@@ -85,7 +85,7 @@ export default function HandoversScreen() {
               const v = vehicles.find((x) => x.id === b.vehicleId);
               const { delivery, ret } = getH(b.id);
               return (
-                <View key={b.id} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+                <View key={b.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
                   <View className="flex-row items-center justify-between mb-3">
                     <View className="flex-1"><Text className="text-sm font-bold text-slate-900">{b.customerName}</Text><Text className="text-xs text-slate-400">{v ? `${v.brand} ${v.model} · ${v.vehicleNumber}` : ''}</Text></View>
                     <StatusBadge status={b.status} size="md" />
@@ -136,7 +136,7 @@ export default function HandoversScreen() {
               const v = vehicles.find((x) => x.id === h.vehicleId);
               const b = bookings.find((x) => x.id === h.bookingId);
               return (
-                <View key={h.id} className="bg-white rounded-2xl border border-slate-100 p-3.5 mb-2.5">
+                <View key={h.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3.5 mb-2.5">
                   <View className="flex-row items-center justify-between mb-1">
                     <View className="flex-row items-center gap-2">
                       {h.type === 'delivery' ? <Truck size={14} color="#059669" /> : <RotateCcw size={14} color="#2563eb" />}

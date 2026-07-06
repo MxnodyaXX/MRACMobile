@@ -103,7 +103,7 @@ export default function CreditScreen() {
           groups.map((g) => {
             const isOpen = !!open[g.key];
             return (
-              <View key={g.key} className="bg-white rounded-2xl border border-slate-100 mb-2.5 overflow-hidden">
+              <View key={g.key} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] mb-2.5 overflow-hidden">
                 <TouchableOpacity onPress={() => setOpen((m) => ({ ...m, [g.key]: !m[g.key] }))} className="flex-row items-center gap-3 p-3.5">
                   <View className="w-9 h-9 rounded-xl bg-navy-800 items-center justify-center"><Text className="text-white text-xs font-bold">{g.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}</Text></View>
                   <View className="flex-1"><Text className="text-sm font-semibold text-slate-800" numberOfLines={1}>{g.name}</Text><Text className="text-xs text-slate-400">{g.phone} · {g.records.length} rec</Text></View>
@@ -143,7 +143,7 @@ export default function CreditScreen() {
 
 function Kpi({ icon: Icon, color, label, value, note }: { icon: typeof CreditCard; color: string; label: string; value: string; note: string }) {
   return (
-    <View className="flex-1 bg-white rounded-2xl border border-slate-100 p-3.5">
+    <View className="flex-1 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3.5">
       <View style={{ backgroundColor: color }} className="w-9 h-9 rounded-xl items-center justify-center mb-2"><Icon size={16} color="#fff" /></View>
       <Text className="text-[11px] text-slate-400 font-medium" numberOfLines={1}>{label}</Text>
       <Text className="text-base font-black text-slate-900" numberOfLines={1}>{value}</Text>

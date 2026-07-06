@@ -67,7 +67,7 @@ export default function InquiriesScreen() {
           <Text className="text-slate-400 text-sm text-center py-16">No inquiries found.</Text>
         ) : (
           filtered.map((inq) => (
-            <TouchableOpacity key={inq.id} activeOpacity={0.85} onPress={() => setViewing(inq)} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+            <TouchableOpacity key={inq.id} activeOpacity={0.85} onPress={() => setViewing(inq)} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
               <View className="flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center gap-3 flex-1">
                   <View className="w-9 h-9 rounded-xl bg-slate-50 items-center justify-center">

@@ -68,7 +68,7 @@ export default function MoreScreen() {
                 <TouchableOpacity
                   onPress={() => router.push(it.route as never)}
                   activeOpacity={0.85}
-                  className="bg-white rounded-2xl border border-slate-100 items-center justify-center py-5 px-2"
+                  className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] items-center justify-center py-5 px-2"
                 >
                   <View className="w-12 h-12 rounded-2xl bg-navy-50 items-center justify-center mb-2">
                     <it.icon size={22} color="#0D1B45" />

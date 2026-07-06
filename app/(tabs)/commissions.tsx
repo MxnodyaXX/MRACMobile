@@ -92,7 +92,7 @@ export default function CommissionsScreen() {
         {isAdmin() && (
           <>
             {(Object.keys(buckets.direct).length > 0 || Object.keys(buckets.referral).length > 0 || Object.keys(buckets.source).length > 0) && (
-              <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+              <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
                 <Text className="text-sm font-bold text-slate-800 mb-3">Income by Referral</Text>
                 <Group title="Direct · by vehicle owner" rows={Object.entries(buckets.direct).map(([oid, v]) => ({ name: owners.find((o) => o.id === oid)?.name ?? 'Unknown', value: v }))} rs={rs} />
                 <Group title="Owner Referrals" rows={Object.entries(buckets.referral).map(([n, v]) => ({ name: n, value: v }))} rs={rs} />
@@ -100,7 +100,7 @@ export default function CommissionsScreen() {
               </View>
             )}
 
-            <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+            <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
               <Text className="text-sm font-bold text-slate-800 mb-3">Owner Payouts</Text>
               {ownerPayouts.map(({ owner, total, pending, count }) => (
                 <View key={owner.id} className="flex-row items-center gap-3 bg-slate-50 rounded-xl p-3 mb-2">
@@ -151,7 +151,7 @@ export default function CommissionsScreen() {
 
 function Kpi({ icon: Icon, color, label, value }: { icon: typeof DollarSign; color: string; label: string; value: string }) {
   return (
-    <View className="flex-1 bg-white rounded-2xl border border-slate-100 p-3.5">
+    <View className="flex-1 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3.5">
       <View style={{ backgroundColor: color }} className="w-9 h-9 rounded-xl items-center justify-center mb-2">
         <Icon size={16} color="#fff" />
       </View>
@@ -185,7 +185,7 @@ function RecordCard({ c, rs }: { c: Commission; rs: (n: number) => string }) {
   const v = vehicles.find((x) => x.id === c.vehicleId);
   const o = owners.find((x) => x.id === c.ownerId);
   return (
-    <View className="bg-white rounded-2xl border border-slate-100 p-3.5 mb-2.5">
+    <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3.5 mb-2.5">
       <View className="flex-row items-start justify-between mb-2">
         <View className="flex-1 pr-2">
           <Text className="text-sm font-semibold text-slate-800" numberOfLines={1}>{b?.customerName ?? '—'}</Text>

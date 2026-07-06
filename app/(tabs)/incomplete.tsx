@@ -50,7 +50,7 @@ export default function IncompleteScreen() {
           {drafts.map((d) => {
             const m = META[d.type];
             return (
-              <View key={d.id} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+              <View key={d.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
                 <View className="flex-row items-start gap-3">
                   <View style={{ backgroundColor: m.bg }} className="w-10 h-10 rounded-xl items-center justify-center"><m.icon size={16} color={m.color} /></View>
                   <View className="flex-1">

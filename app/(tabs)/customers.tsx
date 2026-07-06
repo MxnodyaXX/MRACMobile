@@ -106,7 +106,7 @@ export default function CustomersScreen() {
             const expanded = expandedId === c.id;
             const active = hist.some((b) => b.status === 'Confirmed' || b.status === 'Ongoing');
             return (
-              <View key={c.id} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+              <View key={c.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
                 <View className="flex-row items-start gap-3">
                   <View style={{ backgroundColor: avatarColor(c.name) }} className="w-11 h-11 rounded-xl items-center justify-center">
                     <Text className="text-white font-bold text-sm">{initials(c.name)}</Text>
@@ -199,7 +199,7 @@ export default function CustomersScreen() {
 
 function Stat({ value, label, color, small }: { value: string | number; label: string; color?: string; small?: boolean }) {
   return (
-    <View className="flex-1 bg-white rounded-2xl border border-slate-100 py-4 items-center">
+    <View className="flex-1 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] py-4 items-center">
       <Text className={`font-black ${small ? 'text-sm' : 'text-2xl'}`} style={{ color: color ?? '#0f172a' }} numberOfLines={1}>{value}</Text>
       <Text className="text-[11px] text-slate-400 mt-0.5">{label}</Text>
     </View>

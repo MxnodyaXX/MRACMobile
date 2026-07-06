@@ -42,7 +42,7 @@ export default function PermissionsScreen() {
           const perms = getOwnerPermissions(owner.id);
           const hasAccount = !!user;
           return (
-            <View key={owner.id} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+            <View key={owner.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
               <View className="flex-row items-center justify-between mb-4">
                 <View className="flex-row items-center gap-3 flex-1">
                   <View className="w-11 h-11 rounded-xl bg-navy-800 items-center justify-center"><Text className="text-white text-xs font-bold">{owner.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}</Text></View>

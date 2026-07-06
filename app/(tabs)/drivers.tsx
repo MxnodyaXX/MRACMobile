@@ -50,7 +50,7 @@ export default function DriversScreen() {
         {/* Summary */}
         <View className="flex-row gap-3 mb-4">
           {STATUSES.map((s) => (
-            <View key={s} className="flex-1 bg-white rounded-2xl border border-slate-100 p-3 items-center">
+            <View key={s} className="flex-1 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3 items-center">
               <UserCheck size={18} color={s === 'Available' ? '#059669' : s === 'On Duty' ? '#2563eb' : '#64748b'} />
               <Text className="text-xl font-black text-slate-900 mt-1">{drivers.filter((d) => d.status === s).length}</Text>
               <Text className="text-[11px] text-slate-400">{s}</Text>
@@ -66,7 +66,7 @@ export default function DriversScreen() {
           const days = d.licenseExpiry ? Math.floor((new Date(d.licenseExpiry).getTime() - Date.now()) / 86400000) : 999;
           const warn = days < 60;
           return (
-            <View key={d.id} className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+            <View key={d.id} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
               <View className="flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center gap-3 flex-1">
                   <View className="w-11 h-11 rounded-xl bg-navy-800 items-center justify-center">

@@ -21,7 +21,7 @@ export default function ReferralsScreen() {
 
 function Kpi({ icon: Icon, color, label, value, note }: { icon: typeof HandCoins; color: string; label: string; value: number; note: string }) {
   return (
-    <View className="flex-1 bg-white rounded-2xl border border-slate-100 p-3.5">
+    <View className="flex-1 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-3.5">
       <View style={{ backgroundColor: color }} className="w-9 h-9 rounded-xl items-center justify-center mb-2"><Icon size={16} color="#fff" /></View>
       <Text className="text-[11px] text-slate-400 font-medium" numberOfLines={1}>{label}</Text>
       <Text className="text-base font-black text-slate-900" numberOfLines={1}>{rs(value)}</Text>
@@ -103,7 +103,7 @@ function AdminReferrals() {
       </View>
 
       {top.length > 0 && (
-        <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
+        <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
           <View className="flex-row items-center gap-2 mb-3"><Crown size={16} color="#f59e0b" /><Text className="text-sm font-bold text-slate-800">Top Referrers</Text></View>
           {top.map((g, i) => (
             <View key={g.referrer} className="flex-row items-center gap-2 mb-2.5">
@@ -123,7 +123,7 @@ function AdminReferrals() {
         groups.map((g) => {
           const isOpen = !!open[g.referrer];
           return (
-            <View key={g.referrer} className="bg-white rounded-2xl border border-slate-100 mb-2.5 overflow-hidden">
+            <View key={g.referrer} className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] mb-2.5 overflow-hidden">
               <TouchableOpacity onPress={() => setOpen((m) => ({ ...m, [g.referrer]: !m[g.referrer] }))} className="flex-row items-center gap-3 p-3.5">
                 <View className="w-9 h-9 rounded-xl bg-navy-800 items-center justify-center"><Text className="text-white text-xs font-bold">{g.referrer.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}</Text></View>
                 <View className="flex-1">
