@@ -36,12 +36,24 @@ function TabItem({
       onPressOut={() => (press.value = withTiming(0, { duration: 150 }))}
       hitSlop={6}
     >
-      {/* Active tab: white highlight pill with the icon + name side-by-side.
-          Inactive: icon only. Label rendered only when focused so the layout is
-          correct on every platform. `flex-row` keeps the name beside the icon. */}
+      {/* Active tab: white highlight pill with icon + name side-by-side.
+          Layout is set via explicit style (not className) because NativeWind
+          doesn't reliably process className on a reanimated Animated.View —
+          without this the row falls back to a column and the name stacks under
+          the icon. */}
       <Animated.View
-        style={[pressStyle, { backgroundColor: focused ? 'rgba(255,255,255,0.16)' : 'transparent' }]}
-        className={`flex-row items-center justify-center rounded-full h-11 ${focused ? 'px-4' : 'px-3'}`}
+        style={[
+          pressStyle,
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 44,
+            borderRadius: 999,
+            paddingHorizontal: focused ? 16 : 12,
+            backgroundColor: focused ? 'rgba(255,255,255,0.16)' : 'transparent',
+          },
+        ]}
       >
         <Icon size={21} color={focused ? '#ffffff' : 'rgba(255,255,255,0.6)'} strokeWidth={focused ? 2.6 : 2} />
         {focused && (
