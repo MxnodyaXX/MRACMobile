@@ -118,7 +118,7 @@ export default function VehiclesScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(v) => v.id}
-        contentContainerClassName="px-5 pb-8"
+        contentContainerClassName="px-5 pb-32"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor="#0D1B45" />}
         renderItem={({ item }) => (
           <VehicleCard

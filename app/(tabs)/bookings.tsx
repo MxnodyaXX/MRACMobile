@@ -130,7 +130,7 @@ export default function BookingsScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(b) => b.id}
-        contentContainerClassName="px-5 pb-8"
+        contentContainerClassName="px-5 pb-32"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor="#0D1B45" />}
         renderItem={({ item }) => (
           <BookingCard

@@ -170,7 +170,7 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
-      <ScrollView contentContainerClassName="p-4 pb-10">
+      <ScrollView contentContainerClassName="p-4 pb-32">
         {/* Header */}
         <View className="flex-row items-center justify-between mb-4">
           <View>
