@@ -1,15 +1,36 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Bell, CalendarDays, Car, Home, LayoutGrid, LucideIcon } from 'lucide-react-native';
+import {
+  Bell, CalendarDays, Car, Contact, CreditCard, HandCoins, Home, LayoutGrid, LucideIcon,
+  MessageSquare, Percent, Receipt, Settings, ShieldCheck, Truck, UserCheck, Users,
+} from 'lucide-react-native';
 import { Platform, Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeIn, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+// The five visible tabs.
 const TABS: Record<string, { icon: LucideIcon; label: string }> = {
   index: { icon: Home, label: 'Home' },
   bookings: { icon: CalendarDays, label: 'Bookings' },
   vehicles: { icon: Car, label: 'Vehicles' },
   alerts: { icon: Bell, label: 'Alerts' },
   more: { icon: LayoutGrid, label: 'More' },
+};
+
+// Pages reached from the More menu — when one is active, the More tab adopts its
+// icon + name so the bar still reflects where you are.
+const MORE_PAGES: Record<string, { icon: LucideIcon; label: string }> = {
+  commissions: { icon: Percent, label: 'Commissions' },
+  referrals: { icon: HandCoins, label: 'Referrals' },
+  owners: { icon: Users, label: 'Owners' },
+  expenses: { icon: Receipt, label: 'Expenses' },
+  drivers: { icon: UserCheck, label: 'Drivers' },
+  handovers: { icon: Truck, label: 'Handovers' },
+  customers: { icon: Contact, label: 'Customers' },
+  inquiries: { icon: MessageSquare, label: 'Inquiries' },
+  incomplete: { icon: LayoutGrid, label: 'Incomplete' },
+  credit: { icon: CreditCard, label: 'Credit' },
+  permissions: { icon: ShieldCheck, label: 'Permissions' },
+  settings: { icon: Settings, label: 'Settings' },
 };
 
 function TabItem({
@@ -75,6 +96,10 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
   const { width } = useWindowDimensions();
   const barWidth = Math.min(width - 24, 460); // wide, but capped on large screens
 
+  // When the active route is a More-menu page, the More tab shows that page.
+  const activeName = state.routes[state.index]?.name;
+  const morePage = activeName ? MORE_PAGES[activeName] : undefined;
+
   return (
     // Absolutely positioned so it floats OVER the screen content (no panel strip).
     <View
@@ -98,11 +123,16 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
         {state.routes.map((route, index) => {
           const cfg = TABS[route.name];
           if (!cfg) return null;
-          const focused = state.index === index;
+          const isMore = route.name === 'more';
+          // Highlight this tab when it's the active route, or (for More) when a
+          // More-menu page is active. Show the active page's icon/name on More.
+          const focused = state.index === index || (isMore && !!morePage);
+          const Icon = isMore && morePage ? morePage.icon : cfg.icon;
+          const label = isMore && morePage ? morePage.label : cfg.label;
 
           const onPress = () => {
             const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-            if (!focused && !event.defaultPrevented) navigation.navigate(route.name);
+            if (!event.defaultPrevented && state.index !== index) navigation.navigate(route.name);
           };
           const onLongPress = () => navigation.emit({ type: 'tabLongPress', target: route.key });
 
@@ -110,8 +140,8 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
             <TabItem
               key={route.key}
               focused={focused}
-              label={cfg.label}
-              Icon={cfg.icon}
+              label={label}
+              Icon={Icon}
               onPress={onPress}
               onLongPress={onLongPress}
             />

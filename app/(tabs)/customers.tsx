@@ -75,7 +75,7 @@ export default function CustomersScreen() {
         </TouchableOpacity>
       }
     >
-      <ScrollView contentContainerClassName="p-4 pb-10" keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerClassName="p-4 pb-28" keyboardShouldPersistTaps="handled">
         {/* Stats */}
         <View className="flex-row gap-3 mb-4">
           <Stat value={customers.length} label="Customers" />

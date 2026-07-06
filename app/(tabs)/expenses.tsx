@@ -68,7 +68,7 @@ export default function ExpensesScreen() {
         </TouchableOpacity>
       }
     >
-      <ScrollView contentContainerClassName="p-4 pb-10">
+      <ScrollView contentContainerClassName="p-4 pb-28">
         {/* Total + donut */}
         <View className="bg-white rounded-2xl border border-slate-100 p-4 mb-3">
           <View className="flex-row items-center justify-between mb-3">

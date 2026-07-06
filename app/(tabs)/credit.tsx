@@ -68,7 +68,7 @@ export default function CreditScreen() {
 
   return (
     <PageScreen title="Credit Management">
-      <ScrollView contentContainerClassName="p-4 pb-10">
+      <ScrollView contentContainerClassName="p-4 pb-28">
         {totalOutstanding > 0 && (
           <View className="flex-row items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4">
             <View className="w-9 h-9 rounded-xl bg-amber-500 items-center justify-center"><Wallet size={18} color="#fff" /></View>

@@ -32,7 +32,7 @@ export default function IncompleteScreen() {
           <Text className="text-xs text-slate-400 mt-1">Everything is up to date.</Text>
         </View>
       ) : (
-        <ScrollView contentContainerClassName="p-4 pb-10">
+        <ScrollView contentContainerClassName="p-4 pb-28">
           <View className="flex-row flex-wrap gap-2 mb-4">
             {(['return', 'booking', 'payment'] as const).map((t) => {
               const list = drafts.filter((d) => d.type === t);

@@ -46,7 +46,7 @@ export default function DriversScreen() {
         ) : undefined
       }
     >
-      <ScrollView contentContainerClassName="p-4 pb-10">
+      <ScrollView contentContainerClassName="p-4 pb-28">
         {/* Summary */}
         <View className="flex-row gap-3 mb-4">
           {STATUSES.map((s) => (

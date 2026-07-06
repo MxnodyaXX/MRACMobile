@@ -77,7 +77,7 @@ export default function CommissionsScreen() {
 
   return (
     <PageScreen title="Commissions">
-      <ScrollView contentContainerClassName="p-4 pb-10" keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerClassName="p-4 pb-28" keyboardShouldPersistTaps="handled">
         {/* KPI row */}
         <View className="flex-row gap-3 mb-3">
           <Kpi icon={DollarSign} color="#1B2B6B" label={isAdmin() ? 'Total Income' : 'Earned'} value={rs(isAdmin() ? totalIncome : totalPayout)} />

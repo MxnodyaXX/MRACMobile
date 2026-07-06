@@ -110,7 +110,7 @@ export default function OwnersScreen() {
         ) : undefined
       }
     >
-      <ScrollView contentContainerClassName="p-4 pb-10">
+      <ScrollView contentContainerClassName="p-4 pb-28">
         {isOwnerRole ? (
           <>
             {myOwner && (<><SectionLabel text="My Profile" count={1} />{renderCard(myOwner)}</>)}

@@ -76,7 +76,7 @@ export default function HandoversScreen() {
         ))}
       </View>
 
-      <ScrollView contentContainerClassName="p-4 pb-10">
+      <ScrollView contentContainerClassName="p-4 pb-28">
         {tab === 'active' ? (
           relevant.length === 0 ? (
             <Text className="text-slate-400 text-sm text-center py-16">No active bookings requiring handover.</Text>
