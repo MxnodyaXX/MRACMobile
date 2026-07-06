@@ -1,11 +1,10 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Bell, CalendarDays, Car, Home, LucideIcon, Percent } from 'lucide-react-native';
-import { useEffect } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import { Platform, Pressable, View } from 'react-native';
+import Animated, { FadeIn, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const ICONS: Record<string, { icon: LucideIcon; label: string }> = {
+const TABS: Record<string, { icon: LucideIcon; label: string }> = {
   index: { icon: Home, label: 'Home' },
   bookings: { icon: CalendarDays, label: 'Bookings' },
   vehicles: { icon: Car, label: 'Vehicles' },
@@ -13,8 +12,8 @@ const ICONS: Record<string, { icon: LucideIcon; label: string }> = {
   commissions: { icon: Percent, label: 'Fees' },
 };
 
-const ACTIVE = '#ffffff';
-const INACTIVE = 'rgba(255,255,255,0.55)';
+const ACTIVE = '#0D1B45';
+const INACTIVE = 'rgba(255,255,255,0.6)';
 
 function TabItem({
   focused,
@@ -29,41 +28,39 @@ function TabItem({
   onPress: () => void;
   onLongPress: () => void;
 }) {
-  const p = useSharedValue(focused ? 1 : 0);
   const press = useSharedValue(0);
-
-  useEffect(() => {
-    p.value = withSpring(focused ? 1 : 0, { damping: 16, stiffness: 160, mass: 0.6 });
-  }, [focused, p]);
-
-  // Estimated label width so we can animate the reveal without measuring.
-  const estW = label.length * 8.5 + 6;
-
-  const pillStyle = useAnimatedStyle(() => ({
-    backgroundColor: `rgba(255,255,255,${0.16 * p.value})`,
-    transform: [{ scale: 1 - press.value * 0.08 }],
-  }));
-  const labelStyle = useAnimatedStyle(() => ({
-    width: p.value * estW,
-    opacity: p.value,
-    marginLeft: p.value * 8,
-  }));
+  const pressStyle = useAnimatedStyle(() => ({ transform: [{ scale: 1 - press.value * 0.1 }] }));
 
   return (
     <Pressable
       onPress={onPress}
       onLongPress={onLongPress}
       onPressIn={() => (press.value = withTiming(1, { duration: 90 }))}
-      onPressOut={() => (press.value = withTiming(0, { duration: 140 }))}
-      hitSlop={6}
+      onPressOut={() => (press.value = withTiming(0, { duration: 150 }))}
+      hitSlop={4}
     >
-      <Animated.View style={pillStyle} className="flex-row items-center rounded-full px-3.5 py-2.5">
-        <Icon size={21} color={focused ? ACTIVE : INACTIVE} strokeWidth={focused ? 2.4 : 2} />
-        <Animated.View style={[labelStyle, { overflow: 'hidden' }]}>
-          <Text numberOfLines={1} style={{ width: estW, color: ACTIVE, fontWeight: '700', fontSize: 13 }}>
+      {/* Active item: white highlight pill with the label. Inactive: icon only.
+          Rendering the label only when focused keeps the layout correct on every
+          platform (no dependence on an animated width). */}
+      <Animated.View
+        style={pressStyle}
+        className={`flex-row items-center justify-center rounded-full ${
+          focused ? 'bg-white px-4' : 'px-3'
+        }`}
+        // eslint-disable-next-line react-native/no-inline-styles
+      >
+        <View style={{ height: 40, justifyContent: 'center' }}>
+          <Icon size={21} color={focused ? ACTIVE : INACTIVE} strokeWidth={focused ? 2.4 : 2} />
+        </View>
+        {focused && (
+          <Animated.Text
+            entering={FadeIn.duration(200)}
+            numberOfLines={1}
+            style={{ color: ACTIVE, fontWeight: '700', fontSize: 13, marginLeft: 8 }}
+          >
             {label}
-          </Text>
-        </Animated.View>
+          </Animated.Text>
+        )}
       </Animated.View>
     </Pressable>
   );
@@ -81,6 +78,7 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
       <View
         className="flex-row items-center rounded-full px-2 py-1.5"
         style={{
+          gap: 4,
           backgroundColor: '#0D1B45',
           shadowColor: '#0D1B45',
           shadowOffset: { width: 0, height: 10 },
@@ -91,7 +89,7 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
         }}
       >
         {state.routes.map((route, index) => {
-          const cfg = ICONS[route.name];
+          const cfg = TABS[route.name];
           if (!cfg) return null;
           const focused = state.index === index;
 
