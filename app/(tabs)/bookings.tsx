@@ -4,6 +4,7 @@ import { Alert, FlatList, RefreshControl, Text, TouchableOpacity, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SkeletonCard } from '@/src/components/Skeleton';
+import { TabScreen } from '@/src/components/TabScreen';
 import { BookingCard } from '@/src/features/bookings/BookingCard';
 import { BookingDetailModal } from '@/src/features/bookings/BookingDetailModal';
 import { BookingFormModal, NewBooking } from '@/src/features/bookings/BookingFormModal';
@@ -94,6 +95,7 @@ export default function BookingsScreen() {
   const synced = viewing ? bookings.find((b) => b.id === viewing.id) ?? null : null;
 
   return (
+    <TabScreen>
     <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
       <View className="flex-row items-center justify-between px-5 pt-2 pb-3">
         <View>
@@ -178,5 +180,6 @@ export default function BookingsScreen() {
         onCancel={() => synced && confirmCancel(synced)}
       />
     </SafeAreaView>
+    </TabScreen>
   );
 }

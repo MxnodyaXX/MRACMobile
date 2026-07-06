@@ -11,7 +11,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      screenOptions={{ headerShown: false, animation: 'shift' }}
+      screenOptions={{ headerShown: false, animation: 'fade' }}
       tabBar={(props) => <FloatingTabBar {...props} />}
     >
       <Tabs.Screen name="index" options={{ title: 'Home' }} />

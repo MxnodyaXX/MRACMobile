@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Reveal } from '@/src/components/Reveal';
 import { SkeletonCard } from '@/src/components/Skeleton';
 import { StatusBadge } from '@/src/components/StatusBadge';
+import { TabScreen } from '@/src/components/TabScreen';
 import {
   customerStats, depositAndDebt, expensesByCategory, fleetUtilization, inquiryFunnel, insuranceExpiring,
   leadSources, momGrowth, overdueReturns, paymentMethods, rentalAverages, upcoming, vehicleProfit,
@@ -169,6 +170,7 @@ export default function DashboardScreen() {
   const chartKey = tab;
 
   return (
+    <TabScreen>
     <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
       <ScrollView contentContainerClassName="p-4 pb-32">
         {/* Header */}
@@ -482,6 +484,7 @@ export default function DashboardScreen() {
         </View>
       </InfoModal>
     </SafeAreaView>
+    </TabScreen>
   );
 }
 

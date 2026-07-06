@@ -4,6 +4,7 @@ import { Alert, FlatList, RefreshControl, Text, TouchableOpacity, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { SkeletonCard } from '@/src/components/Skeleton';
+import { TabScreen } from '@/src/components/TabScreen';
 import { VehicleCard } from '@/src/features/vehicles/VehicleCard';
 import { VehicleDetailModal } from '@/src/features/vehicles/VehicleDetailModal';
 import { VehicleForm, VehicleFormModal } from '@/src/features/vehicles/VehicleFormModal';
@@ -80,6 +81,7 @@ export default function VehiclesScreen() {
   };
 
   return (
+    <TabScreen>
     <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
       {/* Header */}
       <View className="flex-row items-center justify-between px-5 pt-2 pb-3">
@@ -171,5 +173,6 @@ export default function VehiclesScreen() {
         onEdit={() => viewing && openEdit(viewing)}
       />
     </SafeAreaView>
+    </TabScreen>
   );
 }
