@@ -1,5 +1,5 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Bell, CalendarDays, Car, Home, LucideIcon, Percent } from 'lucide-react-native';
+import { Bell, CalendarDays, Car, Home, LayoutGrid, LucideIcon } from 'lucide-react-native';
 import { Platform, Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeIn, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ const TABS: Record<string, { icon: LucideIcon; label: string }> = {
   bookings: { icon: CalendarDays, label: 'Bookings' },
   vehicles: { icon: Car, label: 'Vehicles' },
   alerts: { icon: Bell, label: 'Alerts' },
-  commissions: { icon: Percent, label: 'Fees' },
+  more: { icon: LayoutGrid, label: 'More' },
 };
 
 function TabItem({
