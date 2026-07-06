@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Alert, FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { SkeletonCard } from '@/src/components/Skeleton';
 import { VehicleCard } from '@/src/features/vehicles/VehicleCard';
 import { VehicleDetailModal } from '@/src/features/vehicles/VehicleDetailModal';
 import { VehicleForm, VehicleFormModal } from '@/src/features/vehicles/VehicleFormModal';
@@ -133,11 +134,17 @@ export default function VehiclesScreen() {
           />
         )}
         ListEmptyComponent={
-          <View className="items-center py-20">
-            <Text className="text-slate-400 text-sm">
-              {loaded ? 'No vehicles found.' : 'Loading…'}
-            </Text>
-          </View>
+          loaded ? (
+            <View className="items-center py-20">
+              <Text className="text-slate-400 text-sm">No vehicles found.</Text>
+            </View>
+          ) : (
+            <View>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </View>
+          )
         }
       />
 

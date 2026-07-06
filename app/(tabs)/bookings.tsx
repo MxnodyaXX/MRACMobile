@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Alert, FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { SkeletonCard } from '@/src/components/Skeleton';
 import { BookingCard } from '@/src/features/bookings/BookingCard';
 import { BookingDetailModal } from '@/src/features/bookings/BookingDetailModal';
 import { BookingFormModal, NewBooking } from '@/src/features/bookings/BookingFormModal';
@@ -141,9 +142,17 @@ export default function BookingsScreen() {
           />
         )}
         ListEmptyComponent={
-          <View className="items-center py-20">
-            <Text className="text-slate-400 text-sm">{loaded ? 'No bookings found.' : 'Loading…'}</Text>
-          </View>
+          loaded ? (
+            <View className="items-center py-20">
+              <Text className="text-slate-400 text-sm">No bookings found.</Text>
+            </View>
+          ) : (
+            <View>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </View>
+          )
         }
       />
 

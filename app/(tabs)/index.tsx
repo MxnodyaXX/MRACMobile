@@ -8,6 +8,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Reveal } from '@/src/components/Reveal';
+import { SkeletonCard } from '@/src/components/Skeleton';
 import { StatusBadge } from '@/src/components/StatusBadge';
 import {
   customerStats, depositAndDebt, expensesByCategory, fleetUtilization, inquiryFunnel, insuranceExpiring,
@@ -185,21 +187,30 @@ export default function DashboardScreen() {
           </View>
         </View>
 
-        {!loaded && (
-          <View className="items-center py-4">
-            <ActivityIndicator color="#0D1B45" />
+        {!loaded && bookings.length === 0 && (
+          <View>
+            <View className="flex-row gap-3 mb-3">
+              <SkeletonCard />
+              <SkeletonCard />
+            </View>
+            <SkeletonCard />
+            <SkeletonCard />
           </View>
         )}
 
         {/* KPI row */}
-        <View className="flex-row gap-3 mb-3">
-          <KpiCard label="Total Fleet" value={scoped.vehicles.length} sub={`${scopedAvailable.length} available`} icon={Car} color="#1B2B6B" onPress={() => router.push('/vehicles')} />
-          <KpiCard label="Active Bookings" value={d.activeBookings.length} sub="confirmed + ongoing" icon={CalendarDays} color="#3B82F6" onPress={() => router.push('/bookings')} />
-        </View>
-        <View className="flex-row gap-3 mb-4">
-          <KpiCard label="Net Revenue" value={rs(d.totalRevenue)} sub={`Gross ${rs(d.gross)}`} icon={DollarSign} color="#10B981" onPress={() => router.push('/commissions')} />
-          <KpiCard label="Alerts" value={d.unread} sub="unread" icon={AlertCircle} color="#F59E0B" onPress={() => router.push('/alerts')} />
-        </View>
+        <Reveal delay={0}>
+          <View className="flex-row gap-3 mb-3">
+            <KpiCard label="Total Fleet" value={scoped.vehicles.length} sub={`${scopedAvailable.length} available`} icon={Car} color="#1B2B6B" onPress={() => router.push('/vehicles')} />
+            <KpiCard label="Active Bookings" value={d.activeBookings.length} sub="confirmed + ongoing" icon={CalendarDays} color="#3B82F6" onPress={() => router.push('/bookings')} />
+          </View>
+        </Reveal>
+        <Reveal delay={70}>
+          <View className="flex-row gap-3 mb-4">
+            <KpiCard label="Net Revenue" value={rs(d.totalRevenue)} sub={`Gross ${rs(d.gross)}`} icon={DollarSign} color="#10B981" onPress={() => router.push('/commissions')} />
+            <KpiCard label="Alerts" value={d.unread} sub="unread" icon={AlertCircle} color="#F59E0B" onPress={() => router.push('/alerts')} />
+          </View>
+        </Reveal>
 
         {/* Operational Alerts */}
         <Panel title="Overdue Returns" icon={AlertTriangle} iconColor="#ef4444" badge={d.overdue.length} badgeTone={d.overdue.length ? 'red' : 'muted'} onPress={() => router.push('/bookings')}>

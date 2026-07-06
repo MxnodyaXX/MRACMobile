@@ -4,10 +4,10 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
 
+import { LoadingScreen } from '@/src/components/LoadingScreen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useAuthStore } from '@/src/store/useAuthStore';
 
@@ -41,9 +41,9 @@ export default function RootLayout() {
 
   if (!hydrated) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0D1B45' }}>
-        <ActivityIndicator color="#ffffff" />
-      </View>
+      <SafeAreaProvider>
+        <LoadingScreen label="Starting up…" />
+      </SafeAreaProvider>
     );
   }
 
