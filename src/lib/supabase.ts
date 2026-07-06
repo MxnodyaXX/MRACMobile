@@ -1,6 +1,6 @@
 import 'react-native-url-polyfill/auto'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient } from '@supabase/supabase-js'
+import { appStorage, isServerRender } from './storage'
 
 // Expo exposes env vars prefixed with EXPO_PUBLIC_* on process.env at build time.
 // Set these in mrac-mobile/.env (see .env.example).
@@ -16,9 +16,11 @@ export const supabase: ReturnType<typeof createClient<any>> = supabaseEnabled
   ? createClient<any>(url!, key!, {
       auth: {
         // React Native has no localStorage — persist the session in AsyncStorage.
-        storage: AsyncStorage,
-        autoRefreshToken: true,
-        persistSession: true,
+        // During web SSR (no window) appStorage is a no-op and persistence is off
+        // so client init never touches window.localStorage.
+        storage: appStorage,
+        autoRefreshToken: !isServerRender,
+        persistSession: !isServerRender,
         detectSessionInUrl: false, // no URL-based auth redirects on native
       },
     })

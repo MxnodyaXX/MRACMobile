@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { appStorage } from '../lib/storage';
 import { AppState, Vehicle, Owner, Booking, Inquiry, Expense, Driver, Notification, Commission, VehicleHandover, Customer, ProcessDraft } from '../types';
 import { sampleData } from '../data/sampleData';
 import { supabaseEnabled } from '../lib/supabase';
@@ -689,7 +689,7 @@ export const useStore = create<AppState>()(
     {
       name: 'emrac-store-v7',
       version: 2,
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => appStorage),
       // When Supabase is the source of truth, only persist local-only state
       // (drafts). Persisting DB-backed data caused stale sample/demo data to
       // survive in localStorage and appear as "pending" bookings after the DB

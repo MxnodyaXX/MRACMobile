@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { appStorage } from '../lib/storage';
 import { AuthState, AppUser, OwnerPermissions } from '../types/auth';
 import { supabaseEnabled } from '../lib/supabase';
 import { db, dbFetchUsers } from '../lib/db';
@@ -125,6 +125,6 @@ export const useAuthStore = create<AuthState>()(
         return perms[perm];
       },
     }),
-    { name: 'emrac-auth-v2', storage: createJSONStorage(() => AsyncStorage) }
+    { name: 'emrac-auth-v2', storage: createJSONStorage(() => appStorage) }
   )
 );
