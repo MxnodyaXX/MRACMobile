@@ -4,8 +4,9 @@ import { ReactNode } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-/** Standard stack-page shell: a header with a back button + title, then content. */
-export function PageScreen({ title, children }: { title: string; children?: ReactNode }) {
+/** Standard stack-page shell: a header with a back button + title, then content.
+ *  `right` renders an optional action (e.g. an Add button) at the header's end. */
+export function PageScreen({ title, right, children }: { title: string; right?: ReactNode; children?: ReactNode }) {
   const router = useRouter();
   return (
     <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
@@ -13,7 +14,8 @@ export function PageScreen({ title, children }: { title: string; children?: Reac
         <TouchableOpacity onPress={() => router.back()} hitSlop={8} className="w-9 h-9 rounded-xl items-center justify-center bg-slate-50">
           <ChevronLeft size={20} color="#0D1B45" />
         </TouchableOpacity>
-        <Text className="text-lg font-bold text-slate-900">{title}</Text>
+        <Text className="text-lg font-bold text-slate-900 flex-1">{title}</Text>
+        {right}
       </View>
       {children}
     </SafeAreaView>
