@@ -18,14 +18,25 @@ export const unstable_settings = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
-  // Zustand's persist middleware rehydrates from AsyncStorage asynchronously.
-  // Gate the first render until it finishes so a logged-in user isn't briefly
-  // bounced to the login screen on cold start.
-  const [hydrated, setHydrated] = useState(() => useAuthStore.persist.hasHydrated());
+  // Zustand's persist middleware rehydrates from storage asynchronously. Gate the
+  // first render until it finishes so a logged-in user isn't briefly bounced to
+  // the login screen on cold start.
+  //
+  // Start `false` on every platform (matches the web server-render output, avoiding
+  // a hydration mismatch) and flip it from the effect. A safety timeout guarantees
+  // we never stay stuck on the loading screen if the hydration event is missed.
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
+    if (useAuthStore.persist.hasHydrated()) {
+      setHydrated(true);
+      return;
+    }
     const unsub = useAuthStore.persist.onFinishHydration(() => setHydrated(true));
-    if (useAuthStore.persist.hasHydrated()) setHydrated(true);
-    return unsub;
+    const timer = setTimeout(() => setHydrated(true), 1000);
+    return () => {
+      unsub();
+      clearTimeout(timer);
+    };
   }, []);
 
   if (!hydrated) {
