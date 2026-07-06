@@ -36,13 +36,13 @@ function TabItem({
       onPressOut={() => (press.value = withTiming(0, { duration: 150 }))}
       hitSlop={6}
     >
-      {/* Active tab: subtle white highlight pill + label. Inactive: icon only.
+      {/* Active tab: solid charcoal highlight pill + label. Inactive: icon only.
           Label rendered only when focused so layout is correct on every platform. */}
       <Animated.View
-        style={pressStyle}
-        className={`flex-row items-center justify-center rounded-full h-12 ${focused ? 'bg-white/[0.16] px-4' : 'px-3'}`}
+        style={[pressStyle, { backgroundColor: focused ? '#3A3B43' : 'transparent' }]}
+        className={`flex-row items-center justify-center rounded-full h-11 ${focused ? 'px-4' : 'px-3'}`}
       >
-        <Icon size={22} color={focused ? '#ffffff' : 'rgba(255,255,255,0.6)'} strokeWidth={focused ? 2.6 : 2} />
+        <Icon size={21} color={focused ? '#ffffff' : 'rgba(255,255,255,0.55)'} strokeWidth={focused ? 2.6 : 2} />
         {focused && (
           <Animated.Text
             entering={FadeIn.duration(200)}
@@ -73,13 +73,13 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
         style={{
           width: barWidth,
           justifyContent: 'space-between',
-          backgroundColor: '#0D1B45',
+          backgroundColor: '#17181C',
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 12 },
-          shadowOpacity: 0.3,
+          shadowOpacity: 0.35,
           shadowRadius: 24,
           elevation: 14,
-          ...(Platform.OS === 'web' ? { boxShadow: '0 14px 36px rgba(13,27,69,0.45)' } : null),
+          ...(Platform.OS === 'web' ? { boxShadow: '0 14px 36px rgba(0,0,0,0.4)' } : null),
         }}
       >
         {state.routes.map((route, index) => {
