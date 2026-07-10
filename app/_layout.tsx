@@ -1,9 +1,10 @@
 import '../global.css';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
 
@@ -14,6 +15,33 @@ import { useAuthStore } from '@/src/store/useAuthStore';
 export const unstable_settings = {
   anchor: '(tabs)',
 };
+
+/**
+ * Shown instead of a blank screen when the app throws while rendering.
+ * Deliberately uses only raw React Native styles — no NativeWind, no reanimated —
+ * so it still renders even if one of those is what broke.
+ */
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  return (
+    <View style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 64, paddingHorizontal: 20 }}>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#b91c1c', marginBottom: 10 }}>App crashed</Text>
+      <Text selectable style={{ fontSize: 13, color: '#111827', marginBottom: 14 }}>
+        {error?.message ?? 'Unknown error'}
+      </Text>
+      <ScrollView style={{ flex: 1 }}>
+        <Text selectable style={{ fontSize: 10, color: '#475569' }}>
+          {error?.stack ?? ''}
+        </Text>
+      </ScrollView>
+      <TouchableOpacity
+        onPress={retry}
+        style={{ backgroundColor: '#0D1B45', paddingVertical: 14, borderRadius: 12, marginVertical: 20 }}
+      >
+        <Text style={{ color: '#fff', textAlign: 'center', fontWeight: '700' }}>Retry</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
