@@ -20,6 +20,10 @@ powershell -NoProfile -Command "try { Set-NetConnectionProfile -InterfaceAlias '
 
 powershell -NoProfile -Command "if (-not (Get-NetFirewallRule -DisplayName 'Expo Metro 8081' -ErrorAction SilentlyContinue)) { New-NetFirewallRule -DisplayName 'Expo Metro 8081' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8081 -Profile Any | Out-Null; Write-Host '[OK] Firewall rule added for port 8081' } else { Write-Host '[OK] Firewall rule already exists' }"
 
+REM Give Wi-Fi the highest network priority so Expo stops picking the
+REM VirtualBox adapter (192.168.56.x) for the QR code.
+powershell -NoProfile -Command "try { Set-NetIPInterface -InterfaceAlias 'Wi-Fi' -InterfaceMetric 5 -ErrorAction Stop; Write-Host '[OK] Wi-Fi given top network priority' } catch { Write-Host '[skip] Could not set Wi-Fi priority' }"
+
 echo.
 echo Done! You can close this window and re-scan the QR code.
 echo.
