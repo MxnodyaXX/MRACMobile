@@ -43,22 +43,47 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   );
 }
 
-/** TEMPORARY diagnostic. Set to false to restore the app.
- *  Renders a raw RN screen (no NativeWind / reanimated / gradient) to prove
- *  whether JS executes and mounts on the device at all. */
-const DIAGNOSTIC = true;
+/** TEMPORARY diagnostic. 'off' restores the app.
+ *  'nativewind' → tests whether NativeWind classNames apply on device.
+ *  'loading'    → tests LinearGradient + reanimated (the LoadingScreen). */
+const DIAGNOSTIC: 'off' | 'nativewind' | 'loading' = 'nativewind';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
-  if (DIAGNOSTIC) {
+  if (DIAGNOSTIC === 'nativewind') {
     return (
-      <View style={{ flex: 1, backgroundColor: '#e11d48', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-        <Text style={{ color: '#fff', fontSize: 26, fontWeight: 'bold', textAlign: 'center' }}>JS IS RUNNING</Text>
-        <Text style={{ color: '#fff', fontSize: 15, marginTop: 12, textAlign: 'center' }}>
-          If you can read this, React mounted on your phone.
-        </Text>
+      <View style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 70, paddingHorizontal: 16 }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 14 }}>Style probe</Text>
+
+        {/* 1. Raw RN style — must always show */}
+        <View style={{ height: 46, backgroundColor: '#e11d48', justifyContent: 'center', paddingHorizontal: 10, marginBottom: 10 }}>
+          <Text style={{ color: '#fff' }}>1. RAW STYLE (always red)</Text>
+        </View>
+
+        {/* 2. NativeWind className — green ONLY if NativeWind works on native */}
+        <View className="h-12 bg-emerald-600 justify-center px-3 mb-3">
+          <Text className="text-white">2. NATIVEWIND (green = works)</Text>
+        </View>
+
+        {/* 3. Custom navy from tailwind.config */}
+        <View className="h-12 bg-navy-800 justify-center px-3 mb-3">
+          <Text className="text-white">3. NAVY THEME (dark blue = works)</Text>
+        </View>
+
+        {/* 4. The arbitrary shadow class we added everywhere */}
+        <View className="h-12 bg-white border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] justify-center px-3">
+          <Text>4. SHADOW CLASS (no crash = ok)</Text>
+        </View>
       </View>
+    );
+  }
+
+  if (DIAGNOSTIC === 'loading') {
+    return (
+      <SafeAreaProvider>
+        <LoadingScreen label="Probe" />
+      </SafeAreaProvider>
     );
   }
 
