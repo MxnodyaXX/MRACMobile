@@ -1,11 +1,14 @@
-import { CheckCircle2, LogOut, RefreshCw, UserPlus } from 'lucide-react-native';
+import { CheckCircle2, ClipboardList, LogOut, RefreshCw, UserPlus } from 'lucide-react-native';
+import { useState } from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { PageScreen } from '@/src/components/PageScreen';
+import { ManualBookingModal } from '@/src/features/bookings/ManualBookingModal';
 import { useAuthStore } from '@/src/store/useAuthStore';
 import { useStore } from '@/src/store/useStore';
 
 export default function SettingsScreen() {
+  const [manualOpen, setManualOpen] = useState(false);
   const owners = useStore((s) => s.owners);
   const recomputeStats = useStore((s) => s.recomputeStats);
   const users = useAuthStore((s) => s.users);
@@ -41,6 +44,16 @@ export default function SettingsScreen() {
 
         {/* Data management */}
         <Text className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Data Management</Text>
+
+        {/* Manual booking — available to admins and owners (owners see only their vehicles) */}
+        <TouchableOpacity onPress={() => setManualOpen(true)} className="flex-row items-start gap-3 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-3">
+          <View className="w-11 h-11 rounded-xl bg-navy-800 items-center justify-center"><ClipboardList size={20} color="#fff" /></View>
+          <View className="flex-1">
+            <Text className="text-sm font-semibold text-slate-800">Add Manual Booking</Text>
+            <Text className="text-xs text-slate-400 mt-1 leading-5">Record a past booking that was missed. Updates vehicle stats, customer profile, commissions, and referral earnings.</Text>
+          </View>
+        </TouchableOpacity>
+
         {admin && (
           <TouchableOpacity onPress={doRecompute} className="flex-row items-start gap-3 bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-6">
             <View className="w-11 h-11 rounded-xl bg-emerald-600 items-center justify-center"><RefreshCw size={20} color="#fff" /></View>
@@ -50,11 +63,7 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
         )}
-        {!admin && (
-          <View className="bg-white rounded-2xl border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] p-4 mb-6">
-            <Text className="text-sm text-slate-500">Manual booking entry will be available in a later update.</Text>
-          </View>
-        )}
+        {!admin && <View className="mb-3" />}
 
         {/* Owner profiles (admin) */}
         {admin && (
@@ -96,6 +105,8 @@ export default function SettingsScreen() {
           </>
         )}
       </ScrollView>
+
+      <ManualBookingModal visible={manualOpen} onClose={() => setManualOpen(false)} />
     </PageScreen>
   );
 }
