@@ -43,8 +43,24 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   );
 }
 
+/** TEMPORARY diagnostic. Set to false to restore the app.
+ *  Renders a raw RN screen (no NativeWind / reanimated / gradient) to prove
+ *  whether JS executes and mounts on the device at all. */
+const DIAGNOSTIC = true;
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
+  if (DIAGNOSTIC) {
+    return (
+      <View style={{ flex: 1, backgroundColor: '#e11d48', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+        <Text style={{ color: '#fff', fontSize: 26, fontWeight: 'bold', textAlign: 'center' }}>JS IS RUNNING</Text>
+        <Text style={{ color: '#fff', fontSize: 15, marginTop: 12, textAlign: 'center' }}>
+          If you can read this, React mounted on your phone.
+        </Text>
+      </View>
+    );
+  }
 
   // Zustand's persist middleware rehydrates from storage asynchronously. Gate the
   // first render until it finishes so a logged-in user isn't briefly bounced to
