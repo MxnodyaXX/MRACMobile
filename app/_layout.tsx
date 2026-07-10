@@ -1,4 +1,7 @@
 import '../global.css';
+// Registers className -> style for third-party components (SafeAreaView,
+// LinearGradient). Must run before any screen renders.
+import '@/src/lib/nativewind-interop';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';
@@ -43,49 +46,8 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   );
 }
 
-/** TEMPORARY diagnostic. 'off' restores the app.
- *  'nativewind' → tests whether NativeWind classNames apply on device.
- *  'loading'    → tests LinearGradient + reanimated (the LoadingScreen). */
-const DIAGNOSTIC: 'off' | 'nativewind' | 'loading' = 'nativewind';
-
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-
-  if (DIAGNOSTIC === 'nativewind') {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 70, paddingHorizontal: 16 }}>
-        <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 14 }}>Style probe</Text>
-
-        {/* 1. Raw RN style — must always show */}
-        <View style={{ height: 46, backgroundColor: '#e11d48', justifyContent: 'center', paddingHorizontal: 10, marginBottom: 10 }}>
-          <Text style={{ color: '#fff' }}>1. RAW STYLE (always red)</Text>
-        </View>
-
-        {/* 2. NativeWind className — green ONLY if NativeWind works on native */}
-        <View className="h-12 bg-emerald-600 justify-center px-3 mb-3">
-          <Text className="text-white">2. NATIVEWIND (green = works)</Text>
-        </View>
-
-        {/* 3. Custom navy from tailwind.config */}
-        <View className="h-12 bg-navy-800 justify-center px-3 mb-3">
-          <Text className="text-white">3. NAVY THEME (dark blue = works)</Text>
-        </View>
-
-        {/* 4. The arbitrary shadow class we added everywhere */}
-        <View className="h-12 bg-white border border-slate-100 shadow-[0px_6px_16px_rgba(2,6,23,0.08)] justify-center px-3">
-          <Text>4. SHADOW CLASS (no crash = ok)</Text>
-        </View>
-      </View>
-    );
-  }
-
-  if (DIAGNOSTIC === 'loading') {
-    return (
-      <SafeAreaProvider>
-        <LoadingScreen label="Probe" />
-      </SafeAreaProvider>
-    );
-  }
 
   // Zustand's persist middleware rehydrates from storage asynchronously. Gate the
   // first render until it finishes so a logged-in user isn't briefly bounced to
